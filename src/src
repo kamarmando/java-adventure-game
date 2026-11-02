@@ -1,1 +1,77 @@
 
+public class Plane {
+
+    private String make;
+    private String model;
+    private String number;
+    private int maxAltitudeMeters;
+    private int currentAltitudeMeters;
+    private boolean landingGearEnabled;
+
+    public Plane(String make, String model, String number,
+                 int maxAltitudeMeters) {
+        this.make = make;
+        this.model = model;
+        this.number = number;
+        this.maxAltitudeMeters = maxAltitudeMeters;
+        this.currentAltitudeMeters = 0;
+        this.landingGearEnabled = true;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public int getMaxAltitudeMeters() {
+        return maxAltitudeMeters;
+    }
+
+    public int getCurrentAltitudeMeters() {
+        return currentAltitudeMeters;
+    }
+
+    public boolean getLandingGearEnabled() {
+        return landingGearEnabled;
+    }
+
+    public boolean enableLandingGear() {
+        if (currentAltitudeMeters > 100) {
+            return false;
+        }
+        landingGearEnabled = true;
+        return true;
+    }
+
+    public boolean disableLandingGear() {
+        if (currentAltitudeMeters < 100) {
+            return false;
+        }
+        landingGearEnabled = false;
+        return true;
+    }
+
+    public boolean changeAltitude(int meters) {
+        long requested = (long) currentAltitudeMeters + meters;
+
+        int minimum = landingGearEnabled ? 0 : 100;
+        int maximum = landingGearEnabled
+                ? Math.min(100, maxAltitudeMeters)
+                : maxAltitudeMeters;
+
+        int newAltitude = (int) Math.max(
+                minimum, Math.min(requested, maximum));
+
+        currentAltitudeMeters = newAltitude;
+
+        return requested == newAltitude;
+    }
+}
+
